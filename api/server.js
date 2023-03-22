@@ -1,12 +1,17 @@
-const express = require('express');
+const express = require("express");
 
 const server = express();
-
+const { logger } = require("./middleware/middleware");
+const userRouter = require("./users/users-router");
 // ekspres'in varsayılan olarak istek gövdelerinde JSON'u ayrıştıramayacağını unutmayın
 
-// global ara yazılımlar ve kullanıcı routelarının buraya bağlanması gerekir
+server.use(express.json());
 
-server.get('/', (req, res) => {
+// global ara yazılımlar ve kullanıcı routelarının buraya bağlanması gerekir
+server.use("/api/users", userRouter);
+server.use(logger);
+
+server.get("/", (req, res) => {
   res.send(`<h2>Biraz ara yazılım yazalım!</h2>`);
 });
 
